@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 
+//A cél az lenne, hogy az elején lespawnol egy csomó pont, mindegyik más szinü, ha összeérnek, akkor
+//a gyerekük megkapja a sük kombinációát
+//egy idő után meghalnak
+//esetleg huzzanak egy pontozott szakaszt maguk után?
+
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
