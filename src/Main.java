@@ -69,7 +69,7 @@ class MovingDotPanel extends JPanel implements ActionListener {
 
         // Add multiple dots with different positions, directions, and colors
         for (int i = 0; i < 50; i++) {
-            dots.add(new MovingDot(random.nextInt(filedsizeX)+10, random.nextInt(filedsizeY)+10, getRandomColor(), random.nextInt(200), random.nextInt(7) - 3, random.nextInt(7) - 3));
+            dots.add(new MovingDot(random.nextInt(filedsizeX)+10, random.nextInt(filedsizeY)+10, getRandomColor(), random.nextInt(1000), random.nextInt(7) - 3, random.nextInt(7) - 3));
         }
 
         timer = new Timer(50, this);
@@ -92,11 +92,13 @@ class MovingDotPanel extends JPanel implements ActionListener {
             dot.move(getWidth(), getHeight());
             dot.decreaseLifetime();
 
+
             if (dot.isExpired()) {
                 dots.remove(i);
                 i--;
                 continue;
             }
+
 
             // Check for collisions
             for (int j = i + 1; j < dots.size(); j++) {
@@ -119,13 +121,14 @@ class MovingDotPanel extends JPanel implements ActionListener {
     }
 
     private Color getRandomColor() {
+
         return new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
     }
 }
 
 class MovingDot {
     private int x, y;
-    private final int dotSize = 10;
+    private int dotSize = 3;
     private Color color;
     private int lifetime;
     private int speedX, speedY;
@@ -139,7 +142,17 @@ class MovingDot {
         this.lifetime = lifetime;
         this.speedX = (speedX == 0) ? 1 : speedX; // Avoid zero velocity
         this.speedY = (speedY == 0) ? 1 : speedY;
+        this.dotSize = getFirstDigit(lifetime)+3;
+        //System.out.println(lifetime);
+        //System.out.println("_> " + this.dotSize);
+
     }
+
+
+        private int getFirstDigit(int number) {
+            String numStr = String.valueOf(Math.abs(number));
+            return Character.getNumericValue(numStr.charAt(0));
+        }
 
     public void move(int panelWidth, int panelHeight) {
         x += speedX;
@@ -154,6 +167,15 @@ class MovingDot {
         if (spawnprot != 0){
             spawnprot--;
         }
+        if(lifetime % 100 == 0){
+
+
+                dotSize = dotSize + 1;
+                color = color.darker();
+        }
+
+
+
     }
 
     public boolean isExpired() {
